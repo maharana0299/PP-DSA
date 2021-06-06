@@ -18,6 +18,11 @@ public class PaintHouseManyColors {
         System.out.println(cost);
     }
 
+    /**
+     * as from the previous question, we ofound that we only need min and second min
+     * coz suppose we have cost to paint i-1 houses and min and second min, then if min is from i-1 th index, 
+     * at that point we need to uses the second min as we cant paint the house with the same color 
+     */
     static int findMinCost(int arr[][], int k) {
 
         int n = arr.length;
@@ -30,6 +35,7 @@ public class PaintHouseManyColors {
             int nm = Integer.MAX_VALUE, nsm = Integer.MAX_VALUE;
             for (int j = 0; j < k; j++) {
 
+                // if dp[j] is not the old min 
                 if (i == 0 || dp[j] != om) {
                     dp[j] = arr[i][j] + om;
                 } else {

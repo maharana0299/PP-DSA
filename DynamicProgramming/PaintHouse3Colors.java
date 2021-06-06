@@ -19,9 +19,24 @@ public class PaintHouse3Colors {
         System.out.println(cost);
     }
     
+    /**
+     * we have been provided cost matrix of size 3 
+     * it stores the cost to paint the ith house with kth color 
+     * 
+     * @return return the fin cost to paint all houses such that no two house have same color
+     */
     static int findMinCost(int[][] costs) {
         
         int n = costs.length;
+        /**
+         * 0 -> red color 
+         * 1 -> blue color
+         * 2 -> green color 
+         * let dp[j] stores min cost painting the last house with jth color such that no two house are painted
+         * same color 
+         * It will depend of i-1 th house and dp[j] will be cost[i][j] 
+         *  + min(all cost[i-1] houses) except cost[i-1][j] as it cant have same color 
+         */
         int dp[] = new int[3]; // 3 colors poss
         // 0-> red, 1-> blue, 2 -> green
         
