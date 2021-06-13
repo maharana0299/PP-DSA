@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class MaxSumNonAdj {
     
     public static void main(String[] args) throws Exception {
