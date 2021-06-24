@@ -97,6 +97,53 @@ public class ListNode {
         }
     }
 
+    private Node getNode(int i) {
+        Node t = head;
+        while (i-- > 0) {
+            t = t.next;
+        }
+        return t;
+    }
+
+    public void removeAt(int idx) {
+        if (size == 0) {
+            System.out.println("List is empty");
+            return;
+        }
+        if (idx < 0 || idx >= size) {
+            System.out.println("Invalid arguments");
+            return;
+        }
+
+        if (idx == 0) {
+            removeFirst();
+            return;
+        } else if (idx == size - 1) {
+            removeLast();
+            return;
+        }
+        Node n = getNode(idx - 1);
+        n.next = n.next.next;
+        size--;
+    }
+
+    public void reverseDI() {
+
+        Node tl = head;
+        Node n = head;
+        Node p = null;
+        Node nxt = null;
+        while (n != null) {
+            nxt = n.next;
+            n.next = p;
+            p = n;
+            n = nxt;
+        }
+
+        head = p;
+        tail = tl;
+    }
+
     private class Node {
         int data;
         Node next;
