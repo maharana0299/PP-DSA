@@ -169,6 +169,60 @@ public class ListNode {
         tail = temp;
     }
 
+    public void reverseDR() {
+        reverseDR(head, 1);
+    }
+
+    private Node reverseDR(Node hi, int lev) {
+
+        if (hi == null) {
+            return head;
+        }
+        Node lo = reverseDR(hi.next, lev + 1);
+
+        if (lev > size / 2) {
+            // swap
+            int temp = lo.data;
+            lo.data = hi.data;
+            hi.data = temp;
+        }
+
+        return lo.next;
+    }
+
+    private void reversePRHelper(Node node) {
+        if (node == tail) {
+            return;
+        }
+        reversePRHelper(node.next);
+        node.next.next = node;
+    }
+
+    public void reversePR() {
+
+        reversePRHelper(head);
+        head.next = null;
+        Node t = head;
+        head = tail;
+        tail = t;
+    }
+
+    public int mid() {
+
+        if (size() == 0) {
+            return -1;
+        }
+        Node slow = head;
+        Node fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow.data;
+    }
+
     private class Node {
         int data;
         Node next;
