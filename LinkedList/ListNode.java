@@ -127,21 +127,46 @@ public class ListNode {
         size--;
     }
 
+    // reverse data iterative
     public void reverseDI() {
+        int li = 0;
+        int ri = size - 1;
 
-        Node tl = head;
-        Node n = head;
-        Node p = null;
-        Node nxt = null;
-        while (n != null) {
-            nxt = n.next;
-            n.next = p;
-            p = n;
-            n = nxt;
+        Node ln = head;
+
+        while (li < ri) {
+            Node rn = getNode(ri);
+
+            // swap data of left node and right node
+            int temp = ln.data;
+            ln.data = rn.data;
+            rn.data = temp;
+
+            ln = ln.next;
+            li++;
+            ri--;
+        }
+    }
+
+    // reverse pointer iterative
+    public void reversePI() {
+        Node prev = null;
+        Node curr = head;
+
+        while (curr != null) {
+            // backup
+            Node next = curr.next;
+            // reverse link
+            curr.next = prev;
+            // move
+            prev = curr;
+            curr = next;
         }
 
-        head = p;
-        tail = tl;
+        // swap head,tail
+        Node temp = head;
+        head = tail;
+        tail = temp;
     }
 
     private class Node {
