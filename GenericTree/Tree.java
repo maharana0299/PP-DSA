@@ -277,7 +277,7 @@ public class Tree {
         return getTail(node.children.get(0));
     }
 
-    //linearize -> faith (linearize and return tail as well)
+    // linearize -> faith (linearize and return tail as well)
     public static void linearizeEff(Node node) {
         // write your code here
         linearize_helper(node);
@@ -289,13 +289,13 @@ public class Tree {
         }
 
         Node lc = node.children.get(node.children.size() - 1);
-        Node otail = linearize_helper(lc); //overall tail
+        Node otail = linearize_helper(lc); // overall tail
 
         while (node.children.size() > 1) {
             Node slc = node.children.get(node.children.size() - 2);
             Node slct = linearize_helper(slc);
 
-            //connections
+            // connections
             node.children.remove(node.children.size() - 1);
             slct.children.add(lc);
 
@@ -304,6 +304,144 @@ public class Tree {
 
         return otail;
     }
+
+    public static boolean find(Node node, int data) {
+
+        if (node.data == data) {
+            return true;
+        }
+
+        for (Node child : node.children) {
+            if (find(child, data))
+                return true;
+        }
+        return false;
+    }
+
+    // Method 1
+    public static ArrayList<Integer> nodeToRootPath(Node node, int data) {
+
+        ArrayList<Integer> ls = new ArrayList<>();
+
+        ntrphelper(node, data, ls);
+        return ls;
+    }
+
+    private static void ntrphelper(Node node, int data, ArrayList<Integer> ls) {
+
+        if (node.data == data) {
+            ls.add(node.data);
+            return;
+        }
+
+        if (ls.size() > 0) {
+            ls.add(node.data);
+        }
+
+        for (Node c : node.children) {
+            ntrphelper(c, data, ls);
+            if (ls.size() > 0) {
+                ls.add(node.data);
+                return;
+            }
+        }
+    }
+
+    public static ArrayList<Integer> nodeToRootPath2(Node node, int data) {
+        if (node.data == data) {
+            ArrayList<Integer> path = new ArrayList<>();
+            path.add(node.data);
+            return path;
+        }
+
+        for (Node child : node.children) {
+            ArrayList<Integer> ptc = nodeToRootPath2(child, data);
+            if (ptc.size() > 0) {
+                ptc.add(node.data);
+                return ptc;
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
+    public static int lca(Node node, int d1, int d2) {
+        ArrayList<Integer> pt1 = nodeToRootPath(node, d1);
+        ArrayList<Integer> pt2 = nodeToRootPath(node, d2);
+
+        int i = pt1.size() - 1;
+        int j = pt2.size() - 1;
+
+        while (i >= 0 && j >= 0) {
+            if (pt1.get(i) != pt2.get(j)) {
+                return pt1.get(i + 1);
+            }
+            i--;
+            j--;
+        }
+
+        return pt1.get(i + 1);
+    }
+
+    public static int distanceBetweenNodes(Node node, int d1, int d2) {
+        ArrayList<Integer> p1 = nodeToRootPath(node, d1);
+        ArrayList<Integer> p2 = nodeToRootPath(node, d2);
+
+        int i = p1.size() - 1;
+        int j = p2.size() - 1;
+
+        while (i >= 0 && j >= 0 && p1.get(i) == p2.get(j)) {
+            i--;
+            j--;
+        }
+
+        return i + j + 2;
+    }
+
+    public static boolean areSimilar(Node n1, Node n2) {
+
+        if (n1.children.size() != n2.children.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < n1.children.size(); i++) {
+            if (!areSimilar(n1.children.get(i), n2.children.get(i)))
+                return false;
+        }
+
+        return true;
+    }
+
+    public static boolean areMirror(Node n1, Node n2) {
+      
+        if(n1.children.size() != n2.children.size()){
+            return false;
+        }
+        
+        int size = n1.children.size();
+        
+        for(int i = 0; i < size; i++){
+            
+            if(!areMirror(n1.children.get(i),n2.children.get(size-i-1)))
+              return false;
+        }
+        
+        return true;
+    }
+  
+    public static boolean IsSymmetric(Node node) {
+      
+        int size = node.children.size();
+        
+        for(int i = 0; i < size/2; i++ ){
+            if(!areMirror(node.children.get(i),node.children.get(size-i-1))){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
